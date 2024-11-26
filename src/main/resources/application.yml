@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://192.168.1.10:3306/ketchup?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    druid:
+      max-active: 10000
+      max-wait: 100000
+      # 配置 druid 监控页面 ，启动后可访问http://localhost:8080/druid/sql.html
+      web-stat-filter:
+        enabled: true
+        exclusions: "*.js, *.gif, *.jpg, *.png ,*.css ,*.ico, /druid/*"
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-password: root
+        login-username: root
+      filter:
+        commons-log:
+          enabled: true
+          statement-executable-sql-log-enable: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+
+mybatis:
+  mapper-locations: classpath:db/mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+logging:
+  config: classpath:logback.xml
