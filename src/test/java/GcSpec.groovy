@@ -19,9 +19,9 @@ class GcSpec extends Specification {
     Long startId = 1;
     Long endId = 100000;
 
-    def "单次查询" () {
+    def "全量查询" () {
         when:
-        printCurrentMemory("查询前内存情况")
+        printCurrentMemory()
 
         def list = mapper.selectByIdRang(startId, endId)
 
@@ -32,7 +32,7 @@ class GcSpec extends Specification {
 
     def "分片查询" () {
         when:
-        printCurrentMemory("查询前内存情况")
+        printCurrentMemory()
 
         // 分片查询
         def allIds = (startId..endId).toList()
@@ -41,18 +41,18 @@ class GcSpec extends Specification {
             def last = subIds.last()
             def subList = mapper.selectByIdRang(first, last)
         }
-        printCurrentMemory("查询后的内存情况")
+        printCurrentMemory()
 
         then:
         noExceptionThrown()
     }
 
-    private void printCurrentMemory(String remark) {
+    private void printCurrentMemory() {
         def runtime = Runtime.getRuntime()
-        println("=========== $remark =========== ")
+        println("====================== ")
         println("当前使用内存: ${(runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024)} MB")
         println("待分配内存: ${runtime.freeMemory() / (1024 * 1024)} MB")
-        println("=========== $remark =========== ")
+        println("====================== ")
     }
 
     def randomString() {
