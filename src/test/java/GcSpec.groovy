@@ -37,9 +37,8 @@ class GcSpec extends Specification {
         // 分片查询
         def allIds = (startId..endId).toList()
         Lists.partition(allIds, 10000).forEach { subIds ->
-            def first = subIds.first()
-            def last = subIds.last()
-            def subList = mapper.selectByIdRang(first, last)
+            def subList = mapper.selectByIdRang(subIds.first(), subIds.last())
+            println(subList.size())
         }
         printCurrentMemory()
 
