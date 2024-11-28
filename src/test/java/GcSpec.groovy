@@ -22,7 +22,7 @@ class GcSpec extends Specification {
     def "全量查询" () {
         when:
         printCurrentMemory()
-
+        //
         def list = mapper.selectByIdRang(startId, endId)
 
         then:
@@ -34,7 +34,7 @@ class GcSpec extends Specification {
         when:
         printCurrentMemory()
 
-        // 分片查询
+        // 使用 Guava 的工具类进行数据分片
         def allIds = (startId..endId).toList()
         Lists.partition(allIds, 10000).forEach { subIds ->
             def subList = mapper.selectByIdRang(subIds.first(), subIds.last())
@@ -76,31 +76,19 @@ class GcSpec extends Specification {
         return po
     }
 
-    Long batchSize = 1000;
-    def setup() {
-        def rang = (startId .. endId)
-        List<FileOutputRecordPO> records = []
-        rang.each {
-            // 生成数据
-            records.add(createPO(it))
-            // 1000为分片插入数据库
-            if (records.size() == batchSize) {
-                mapper.batchInsertWithId(records);
-                records.clear();
-            }
-        }
 
-        if (records.size() > 0) {
-            mapper.batchInsert(records)
-            records.clear()
+    /**
+     * 生成十万条数据，测试用例执行完后删除
+     */
+    def setup() {
+        def allIds = (startId..endId).toList()
+        Lists.partition(allIds, 1000).forEach { subIds ->
+            def sub = subIds.collect(it -> createPO(it))
+            mapper.batchInsertWithId(sub);
         }
     }
 
-    /**
-     * 测试用例结束，生成十万条数据库数据
-     */
     def cleanup() {
         mapper.deleteByIdRang(startId, endId)
     }
-
 }
