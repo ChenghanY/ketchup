@@ -54,11 +54,32 @@
         </foreach>
     </insert>
 
+    <insert id="batchInsertWithId">
+        INSERT INTO file_output_record
+        (id, file_name, file_ref, output_type, output_state)
+        values
+        <foreach collection="list" item="po" separator="," nullable="false">
+            (#{po.id}, #{po.fileName}, #{po.fileRef}, #{po.outputType}, #{po.outputState})
+        </foreach>
+    </insert>
+
     <select id="batchUpdate">
         <foreach collection="list" item="po" separator=";" nullable="false">
             update file_output_record
             <include refid="bizColSet"/>
             where id = #{po.id}
         </foreach>
+    </select>
+
+    <delete id="deleteByIdRang">
+        delete from file_output_record where id &gt;= #{start} and id &lt;= #{end}
+    </delete>
+
+    <select id="selectByIdRang" resultType="com.james.db.po.FileOutputRecordPO">
+        select
+        <include refid="bizColDef"/>,
+        <include refid="sysColDef"/>
+        from file_output_record
+        where id &gt;= #{start} and id &lt;= #{end}
     </select>
 </mapper>

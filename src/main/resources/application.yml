@@ -24,7 +24,7 @@ spring:
         login-username: root
       filter:
         commons-log:
-          enabled: true
+          enabled: false
           statement-executable-sql-log-enable: true
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

@@ -25,7 +25,7 @@
     </appender>
 
     <!--全局日志等级, 一个输入文件，一个输入控制台-->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>

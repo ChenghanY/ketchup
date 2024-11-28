@@ -13,5 +13,8 @@ public interface FileOutputRecordMapper {
     void updateOneById(@Param("po") FileOutputRecordPO po);
     List<FileOutputRecordPO> queryListByIds(@Param("ids") List<Long> ids);
     void batchInsert(@Param("list") List<FileOutputRecordPO> list);
+    void batchInsertWithId(@Param("list") List<FileOutputRecordPO> list);
     void batchUpdate(@Param("list") List<FileOutputRecordPO> list);
+    void deleteByIdRang(@Param("start") Long start, @Param("end") Long end);
+    List<FileOutputRecordPO> selectByIdRang(@Param("start") Long start, @Param("end") Long end);
 }
