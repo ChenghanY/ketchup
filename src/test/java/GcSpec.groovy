@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
 import javax.annotation.Resource
+import java.util.stream.Collectors
 
 @SpringBootTest(classes = KetchupApplication.class)
 class GcSpec extends Specification {
@@ -36,6 +37,7 @@ class GcSpec extends Specification {
 
         // 使用 Guava 的工具类进行数据分片
         def allIds = (startId..endId).toList()
+
         Lists.partition(allIds, 10000).forEach { subIds ->
             def subList = mapper.selectByIdRang(subIds.first(), subIds.last())
             println(subList.size())
