@@ -22,7 +22,7 @@ class GcSpec extends Specification {
     def "全量查询" () {
         when:
         printCurrentMemory()
-        //
+
         def list = mapper.selectByIdRang(startId, endId)
 
         then:
