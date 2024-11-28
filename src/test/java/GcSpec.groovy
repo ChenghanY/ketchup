@@ -14,7 +14,7 @@ class GcSpec extends Specification {
     FileOutputRecordMapper mapper
 
     /**
-     * 测试用例开始，生成十万条数据库数据
+     * 十万条数据库查询
      */
     Long startId = 1;
     Long endId = 100000;
